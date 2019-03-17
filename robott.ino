@@ -183,10 +183,22 @@ void setup()
   pinMode(PROGRAM_PIN, INPUT);
 
   myservo1.attach(5);
-  myservo2.attach(13);
-  myservo1.write(0);
-  myservo2.write(150);
+  // myservo2.attach(13);
+  myservo1.write(180);
+  //myservo2.write(150);
+  digitalWrite(in3_PL, LOW);
+  digitalWrite(in4_PL, LOW);
+  digitalWrite(in1_SL, LOW);
+  digitalWrite(in2_SL, LOW);
+  digitalWrite(in3_ZL, LOW);
+  digitalWrite(in4_ZL, LOW);
 
+  digitalWrite(in1_PP, LOW);
+  digitalWrite(in2_PP, LOW);
+  digitalWrite(in3_SP, LOW);
+  digitalWrite(in4_SP, LOW);
+  digitalWrite(in1_ZP, LOW);
+  digitalWrite(in2_ZP, LOW);
 }
 
 void loop()
@@ -316,11 +328,11 @@ void loop()
         case GEAR_FULL:
           if (unSteeringIn > (unSteeringCenter + RC_DEADBAND))
           {
-            throttleLeft = map(unSteeringIn, unSteeringCenter, unSteeringMax, gThrottle, PWM_MIN);
+            throttleRight = map(unSteeringIn, unSteeringCenter, unSteeringMax, gThrottle, PWM_MIN);
           }
           else if (unSteeringIn < (unSteeringCenter - RC_DEADBAND))
           {
-            throttleRight = map(unSteeringIn, unSteeringMin, unSteeringCenter, PWM_MIN, gThrottle);
+            throttleLeft = map(unSteeringIn, unSteeringMin, unSteeringCenter, PWM_MIN, gThrottle);
           }
 
           break;
@@ -336,19 +348,19 @@ void loop()
     }
     if (bUpdateFlags & DATCHIK_FLAG)
     {
-
-
-      if (unDatchikIn < 1500)
-      {
-        myservo1.write(0);
-        myservo2.write(150);
- //       delay(1000);
-      } else  if (unDatchikIn > 1500) {
-        myservo1.write(150);
-        myservo2.write(0);
-     //   delay(1000);
-      }
-
+      myservo1.write(map(unDatchikIn, 1000, 2000, 180, 0));
+      /*
+            if (unDatchikIn < 1500)
+            {
+              myservo1.write(0);
+            //  myservo2.write(150);
+        //       delay(1000);
+            } else  if (unDatchikIn > 1500) {
+              myservo1.write(map(unThrottleInShared, 0, 1000, 0, 180));
+              //myservo2.write(0);
+           //   delay(1000);
+            }
+      */
     }
   }
 
